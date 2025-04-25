@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Numerical Differentiation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1, h2, h3 {
+      text-align: center;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
+    .tab-button {
+      padding: 10px 20px;
+      margin: 5px;
+      cursor: pointer;
+      border: none;
+      border-radius: 10px;
+      background: #e0e0e0;
+      transition: background 0.2s;
+    }
+
+    .tab-button.active {
+      background: #4285f4;
+      color: white;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+
+    caption {
+      caption-side: top;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .calculator label {
+      display: block;
+      margin-top: 1rem;
+    }
+
+    .calculator input {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 4px;
+      margin-bottom: 1rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .calculator button {
+      padding: 0.7rem 1.5rem;
+      border: none;
+      background: #34a853;
+      color: white;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .result {
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+
+    .home p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      text-align: center;
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .home h2 {
+      margin-top: 2rem;
+    }
+
+    .steps {
+      background: #f1f1f1;
+      padding: 1rem;
+      border-radius: 10px;
+      margin-bottom: 1.5rem;
+    }
+
+    .steps ol {
+      padding-left: 1.2rem;
+    }
+
+    .formula-box {
+      background: #eef;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 10px;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Numerical Differentiation</h1>
+
+    <div class="tabs">
+      <button class="tab-button active" onclick="showTab('home')">Home</button>
+      <button class="tab-button" onclick="showTab('forward')">Forward</button>
+      <button class="tab-button" onclick="showTab('backward')">Backward</button>
+      <button class="tab-button" onclick="showTab('central')">Central</button>
+      <button class="tab-button" onclick="showTab('richardson')">Richardson</button>
+    </div>
+
+    <!-- Home -->
+    <div class="tab-content active" id="home">
+      <div class="home">
+        <h2>Welcome to the Numerical Differentiation Tutorial</h2>
+        <p>Numerical methods are powerful tools used to find approximate solutions to mathematical problems that may not be solvable analytically. These methods are especially important in engineering, physics, and applied sciences where real-world problems often lead to complex equations.</p>
+    
+        <h3>Why Numerical Methods?</h3>
+        <p>In many practical scenarios, exact solutions are impossible or very difficult to obtain. Numerical techniques provide a way to compute approximate solutions using algorithms and computational tools, allowing us to analyze complex systems and make informed decisions.</p>
+        
+        <h3>Numerical Solutions to Differential Equations</h3>
+        <p>Differential equations describe how quantities change over time or space. Numerical methods for differential equations—such as Euler's method, Runge-Kutta methods, and finite difference methods—help us simulate these changes when exact solutions are unavailable.</p>
+        
+        <h3>Numerical Differentiation</h3>
+        <p>Numerical differentiation focuses on approximating the derivative of a function using known function values. This tutorial introduces four key techniques:</p>
+        <ul style="max-width: 700px; margin: auto; text-align: left;">
+          <li><strong>Forward Difference</strong></li>
+          <li><strong>Backward Difference</strong></li>
+          <li><strong>Central Difference</strong></li>
+          <li><strong>Richardson Extrapolation</strong></li>
+        </ul>
+        <p>Use the tabs above to explore each method in detail, follow step-by-step instructions, and try our built-in calculators to practice with your own functions.</p>  
+    </div>
+
+    <!-- Forward Tab -->
+    <div class="tab-content" id="forward">
+      <h2>Forward Difference Method</h2>
+      <div class="steps">
+        <h3>Step-by-Step Tutorial</h3>
+        <ol>
+          <li>Select the desired order of derivative (1st, 2nd, etc.).</li>
+          <li>Use the corresponding row in the table to get coefficients.</li>
+          <li>Evaluate your function at the x-values shown (e.g. x, x+h, x+2h...).</li>
+          <li>Multiply each function value by its coefficient.</li>
+          <li>Add the results together and divide by hⁿ where n is the derivative order.</li>
+        </ol>
+      </div>
+      <table>
+        <caption>Forward Coefficients O(h)</caption>
+        <thead><tr><th></th><th>f(x)</th><th>f(x+h)</th><th>f(x+2h)</th><th>f(x+3h)</th><th>f(x+4h)</th></tr></thead>
+        <tbody>
+          <tr><td>h·f'(x)</td><td>-1</td><td>1</td><td></td><td></td><td></td></tr>
+          <tr><td>h²·f''(x)</td><td>1</td><td>-2</td><td>1</td><td></td><td></td></tr>
+          <tr><td>h³·f'''(x)</td><td>-1</td><td>3</td><td>-3</td><td>1</td><td></td></tr>
+          <tr><td>h⁴·f⁽⁴⁾(x)</td><td>1</td><td>-4</td><td>6</td><td>-4</td><td>1</td></tr>
+        </tbody>
+      </table>
+      <table>
+        <caption>Forward Coefficients O(h2)</caption>
+        <thead><tr><th></th><th>f(x)</th><th>f(x+h)</th><th>f(x+2h)</th><th>f(x+3h)</th><th>f(x+4h)</th></tr></thead>
+        <tbody>
+          <tr><td>2h·f'(x)</td><td>-3</td><td>4</td><td>-1</td><td></td><td></td></tr></td></tr>
+          <tr><td>h²·f''(x)</td><td>2</td><td>-5</td><td>4</td><td>1-</td><td></td></tr></td></tr>
+          <tr><td>2h³·f'''(x)</td><td>-5</td><td>18</td><td>-24</td><td>14</td><td>-3</td></tr></td></tr>
+        </tbody>
+      </table>
+      <div class="calculator">
+        <h3>Try It Yourself</h3>
+        <label>Function f(x): <input type="text" id="fx-forward" placeholder="e.g. x^2 + 3*x"/></label>
+        <label>Value of x: <input type="number" id="x-forward"/></label>
+        <label>Step size h: <input type="number" id="h-forward"/></label>
+        <button onclick="calculate('forward')">Calculate f'(x)</button>
+        <div id="result-forward" class="result"></div>
+      </div>
+    </div>
+
+    <!-- Backward Tab -->
+    <div class="tab-content" id="backward">
+      <h2>Backward Difference Method</h2>
+      <div class="steps">
+        <h3>Step-by-Step Tutorial</h3>
+        <ol>
+          <li>Choose the derivative order you need.</li>
+          <li>Find the appropriate row in the table below.</li>
+          <li>Plug x-values like x, x-h, x-2h, etc. into your function.</li>
+          <li>Multiply those values by the coefficients.</li>
+          <li>Sum them and divide by h raised to the derivative order.</li>
+        </ol>
+      </div>
+      <table>
+        <caption>Backward Coefficients O(h)</caption>
+        <thead><tr><th></th><th>f(x-4h)</th><th>f(x-3h)</th><th>f(x-2h)</th><th>f(x-h)</th><th>f(x)</th></tr></thead>
+        <tbody>
+          <tr><td>h·f'(x)</td><td></td><td></td><td></td><td>-1</td><td>1</td></tr>
+          <tr><td>h²·f''(x)</td><td></td><td></td><td>1</td><td>-2</td><td>1</td></tr>
+          <tr><td>h³·f'''(x)</td><td>-1</td><td>3</td><td>-3</td><td>1</td><td></td></tr>
+          <tr><td>h⁴·f⁽⁴⁾(x)</td><td>1</td><td>-4</td><td>6</td><td>-4</td><td>1</td></tr>
+        </tbody>
+      </table>
+      <table>
+        <caption>Backward Coefficients O(h2)</caption>
+        <thead><tr><th></th><th>f(x-4h)</th><th>f(x-3h)</th><th>f(x-2h)</th><th>f(x-h)</th><th>f(x)</th></tr></thead>
+        <tbody>
+          <tr><td>2h·f'(x)</td><td></td><td></td><td>1</td><td>-4</td><td>3</td></tr>
+          <tr><td>h²·f''(x)</td><td></td><td>-1</td><td>4</td><td>-5</td><td>2</td></tr>
+          <tr><td>2h³·f'''(x)</td><td>3</td><td>-14</td><td>24</td><td>-18</td><td>5</td></tr>
+        </tbody>
+      </table>
+      <div class="calculator">
+        <h3>Try It Yourself</h3>
+        <label>Function f(x): <input type="text" id="fx-backward" placeholder="e.g. x^3"/></label>
+        <label>Value of x: <input type="number" id="x-backward"/></label>
+        <label>Step size h: <input type="number" id="h-backward"/></label>
+        <button onclick="calculate('backward')">Calculate f'(x)</button>
+        <div id="result-backward" class="result"></div>
+      </div>
+    </div>
+
+    <!-- Central Tab -->
+    <div class="tab-content" id="central">
+      <h2>Central Difference Method</h2>
+      <div class="steps">
+        <h3>Step-by-Step Tutorial</h3>
+        <ol>
+          <li>Select the derivative order.</li>
+          <li>Use coefficients from the table.</li>
+          <li>Evaluate function at x - nh to x + nh.</li>
+          <li>Multiply and sum as shown in the table row.</li>
+          <li>Divide by hⁿ (n is derivative order) or 2hⁿ for odd derivatives.</li>
+        </ol>
+      </div>
+      <table>
+        <caption>Central Coefficients</caption>
+        <thead><tr><th></th><th>f(x-2h)</th><th>f(x-h)</th><th>f(x)</th><th>f(x+h)</th><th>f(x+2h)</th></tr></thead>
+        <tbody>
+          <tr><td>2h·f'(x)</td><td></td><td>-1</td><td>0</td><td>1</td><td></td></tr>
+          <tr><td>h²·f''(x)</td><td></td><td>1</td><td>-2</td><td>1</td><td></td></tr>
+          <tr><td>2h³·f'''(x)</td><td>-1</td><td>2</td><td>0</td><td>-2</td><td>1</td></tr>
+          <tr><td>h⁴·f⁽⁴⁾(x)</td><td>1</td><td>-4</td><td>6</td><td>-4</td><td>1</td></tr>
+        </tbody>
+      </table>
+      <div class="calculator">
+        <h3>Try It Yourself</h3>
+        <label>Function f(x): <input type="text" id="fx-central" placeholder="e.g. sin(x)"/></label>
+        <label>Value of x: <input type="number" id="x-central"/></label>
+        <label>Step size h: <input type="number" id="h-central"/></label>
+        <button onclick="calculate('central')">Calculate f'(x)</button>
+        <div id="result-central" class="result"></div>
+      </div>
+    </div>
+
+    <!-- Richardson Tab -->
+    <div class="tab-content" id="richardson">
+      <h2>Richardson Extrapolation</h2>
+      <p>This technique improves the accuracy of a derivative approximation by combining estimates with different step sizes.</p>
+      <div class="formula-box">
+        R(h) = (4 * D(h/2) - D(h)) / 3
+      </div>
+      <div class="steps">
+        <h3>Step-by-Step Instructions</h3>
+        <ol>
+          <li>Compute the derivative D(h) using the central difference with step size h.</li>
+          <li>Compute D(h/2) using the same method but with half the step size.</li>
+          <li>Use the Richardson formula to combine the results and get a more accurate estimate.</li>
+        </ol>
+      </div>
+      <div class="calculator">
+        <h3>Richardson Calculator</h3>
+        <label>Function f(x): <input type="text" id="fx-richardson" placeholder="e.g. sin(x)"/></label>
+        <label>Value of x: <input type="number" id="x-richardson"/></label>
+        <label>Step size h: <input type="number" id="h-richardson"/></label>
+        <button onclick="calculateRichardson()">Calculate f'(x)</button>
+        <div id="result-richardson" class="result"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.6.4/math.min.js"></script>
+  <script>
+    function showTab(tabId) {
+      document.querySelectorAll(".tab-button").forEach(btn => btn.classList.remove("active"));
+      document.querySelectorAll(".tab-content").forEach(tab => tab.classList.remove("active"));
+      document.querySelector(`.tab-button[onclick*="${tabId}"]`).classList.add("active");
+      document.getElementById(tabId).classList.add("active");
+    }
+
+    function calculate(method) {
+      const fx = document.getElementById(`fx-${method}`).value;
+      const x = parseFloat(document.getElementById(`x-${method}`).value);
+      const h = parseFloat(document.getElementById(`h-${method}`).value);
+
+      if (!fx || isNaN(x) || isNaN(h)) {
+        document.getElementById(`result-${method}`).innerText = "Please enter all fields.";
+        return;
+      }
+
+      try {
+        const expr = math.parse(fx);
+        const compiled = expr.compile();
+        let result = 0;
+
+        if (method === "forward") {
+          result = (compiled.evaluate({x: x + h}) - compiled.evaluate({x})) / h;
+        } else if (method === "backward") {
+          result = (compiled.evaluate({x}) - compiled.evaluate({x: x - h})) / h;
+        } else if (method === "central") {
+          result = (compiled.evaluate({x: x + h}) - compiled.evaluate({x: x - h})) / (2 * h);
+        }
+
+        document.getElementById(`result-${method}`).innerText = `Approximate f'(x) ≈ ${result.toFixed(6)}`;
+      } catch (e) {
+        document.getElementById(`result-${method}`).innerText = "Invalid function expression.";
+      }
+    }
+
+    function calculateRichardson() {
+      const fx = document.getElementById(`fx-richardson`).value;
+      const x = parseFloat(document.getElementById(`x-richardson`).value);
+      const h = parseFloat(document.getElementById(`h-richardson`).value);
+
+      if (!fx || isNaN(x) || isNaN(h)) {
+        document.getElementById(`result-richardson`).innerText = "Please enter all fields.";
+        return;
+      }
+
+      try {
+        const expr = math.parse(fx);
+        const compiled = expr.compile();
+
+        const D_h = (compiled.evaluate({x: x + h}) - compiled.evaluate({x: x - h})) / (2 * h);
+        const D_half = (compiled.evaluate({x: x + h/2}) - compiled.evaluate({x: x - h/2})) / h;
+
+        const R = (4 * D_half - D_h) / 3;
+
+        document.getElementById(`result-richardson`).innerText = `Richardson Extrapolation: f'(x) ≈ ${R.toFixed(6)}`;
+      } catch (e) {
+        document.getElementById(`result-richardson`).innerText = "Invalid function expression.";
+      }
+    }
+  </script>
+</body>
+</html>
